@@ -16,11 +16,23 @@ A choice state allows the HTTP invocation to be skipped if the `skip=true` query
 npm install
 cdk deploy
 ```
-The endpoint is printed to the screen on successful deployment
+The API Gateway HTTPS endpoint is printed to the screen on successful deployment.
 
 ## Evaluating
 
 X-Ray tracing is enabled for the API deployment and the Step Function, allowing you to see errors and performance metrics.
+
+Execute the API as follows (using cURL):
+
+```sh
+curl -v https://<REPLACE_WITH_YOURAPI_ID>.execute-api.eu-west-1.amazonaws.com/prod
+```
+
+To skip the API invocation and run the simple `Pass` and `Choice` states of the step function, add the `skip=true` query parameter:
+
+```sh
+curl -v "https://<REPLACE_WITH_YOURAPI_ID>.execute-api.eu-west-1.amazonaws.com/prod?skip=true"
+```
 
 With the HTTP invocation step, this sample shows 404ms end-to-end with 369ms of that for the HTTP invocation.
 ![AWS X-Ray trace showing the timelines of segments including HTTP invocation](trace-with-api.png)
